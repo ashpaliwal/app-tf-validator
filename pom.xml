@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Define the group ID (usually your organization or packaging name) and version for your project -->
+    <groupId>com.sumologic.platform.appvalidator</groupId>
+    <artifactId>appvalidator</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- Set the Java version for the project -->
+    <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <!-- Specify the repositories to resolve dependencies -->
+    <!--<repositories>-->
+    <!--<repository>-->
+    <!--    <id>maven-central</id>-->
+    <!--    <url>https://repo.maven.apache.org/maven2</url>-->
+    <!--</repository>-->
+    <!--</repositories>-->
+
+    <!-- Define any project dependencies here -->
+    <dependencies>
+        <!-- Apache Commons Text -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.11.0</version>
+        </dependency>
+
+        <!-- Custom HCL plugin -->
+        <dependency>
+            <groupId>com.bertramlabs.plugins</groupId>
+            <artifactId>hcl4j</artifactId>
+            <version>0.9.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-parent</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Project Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+<!--            <scope>provided</scope>-->
+        </dependency>
+
+        <!-- Log4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.23.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.23.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.23.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- To configure the manifest file within the JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Implementation-Title>Gradle Java Project</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- If you are using annotation processors (e.g., Lombok), add the following plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.32</version>
+                        </path>
+                        <!-- Specify other annotation processors if required -->
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
