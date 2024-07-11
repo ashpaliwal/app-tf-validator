@@ -11,25 +11,22 @@ import lombok.experimental.Accessors;
 @ToString
 public class SumologicDashboard {
 
-    @NonNull
-    TfVariable<String> title;
+    String title;
 
-    TfVariable<String> description;
+    String description;
 
-    TfVariable<String> folder_id;
+    String folder_id;
 
-    TfVariable<TopologyLabelMap> topologyLabelMap;
+    TopologyLabelMap topologyLabelMap;
 
-    TfVariable<String> domain;
+    String domain;
 
-    @NonNull
-    TfVariable<Enums.RefreshInterval> refresh_interval;
+    Enums.RefreshInterval refresh_interval;
 
-    @NonNull
-    TfVariable<TimeRange> time_range;
+    TimeRange time_range;
 
-    TfVariable<Panel> panel;
-    TfVariable<Layout.GridLayout> layout;
-    TfVariable<Variable> variable;
-    TfVariable<Enums.Theme> theme;
+    Panel panel;
+    Layout.GridLayout layout;
+    Variable variable;
+    Enums.Theme theme;
 }

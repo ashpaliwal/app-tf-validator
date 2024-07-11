@@ -1,9 +1,7 @@
 package com.sumologic.appfwk.tf.parsers;
 
 import com.bertramlabs.plugins.hcl4j.HCLParser;
-import com.sumologic.appfwk.tf.model.ParsingMode;
-import com.sumologic.appfwk.tf.model.Resource;
-import com.sumologic.appfwk.tf.model.SumologicLogSearch;
+import com.sumologic.appfwk.tf.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +46,40 @@ public class ResourceParser {
         return logSearch;
     }
 
+    public List<SumologicDashboard> parseDashboards(String fileName) throws Exception {
+        log.info("Received file name : {}", fileName);
+        InputStream inputStream = this.getClass().getResourceAsStream(fileName);
+        Map<String, Object> results = new HCLParser().parse(inputStream, "UTF-8");
+        results.forEach((key, value) -> log.info("key: {}, value: {}", key, value));
+        Map<String, Object> resourceMap = (Map<String, Object>) results.get("resource");
+        Map<String, Object> dashboards = (Map<String, Object>)resourceMap.get("sumologic_dashboard");
+        List<SumologicDashboard> dashboardResources  =
+                dashboards.entrySet().stream().map((entry) -> parseDashboard(entry.getKey(),
+                        (Map<String, Object>) entry.getValue())).collect(Collectors.toList());
+        return dashboardResources;
+    }
+
+    private SumologicDashboard parseDashboard(String resourceName, Map<String, Object> resourceProperties) {
+        log.info("Parsing resource : {}", resourceName);
+        SumologicDashboard dashboard = SumologicDashboard.builder()
+                .title(resourceProperties.getOrDefault("title", "").toString())
+                .description(resourceProperties.getOrDefault("description", "").toString())
+                .folder_id(resourceProperties.getOrDefault("folder_id", "").toString())
+                .domain(resourceProperties.getOrDefault("domain", "").toString())
+                .theme(Enums.Theme.valueOf(resourceProperties.getOrDefault("theme", "").toString()))
+                .build();
+        log.info("{}, {}", resourceName, dashboard);
+        return dashboard;
+    }
+
     public static void main(String[] args) throws Exception {
         log.info("parsing file: {}", args[0]);
         ResourceParser resourceParser = new ResourceParser();
         List<SumologicLogSearch> logSearches = resourceParser.parse(args[0]);
         log.info(" Log Searches : {}", logSearches);
+        List<SumologicDashboard> sumologicDashboards = resourceParser.parseDashboards(args[1]);
+        log.info("Dashboards: {}", sumologicDashboards);
+
     }
 
 }
