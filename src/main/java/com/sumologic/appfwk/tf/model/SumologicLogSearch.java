@@ -12,28 +12,25 @@ import java.util.List;
 @Builder
 @ToString
 public class SumologicLogSearch {
-    @NonNull
-    TfVariable<String> name;
 
-    @NonNull
-    TfVariable<String> description;
+    String name;
 
-    @NonNull
-    TfVariable<String> parent_id;
+    String displayName;
 
-    @NonNull
-    TfVariable<String> query_string;
+    String description;
 
-    @NonNull
-    TfVariable<Boolean> run_by_receipt_time;
+    String parent_id;
 
-    @NonNull
-    TfVariable<TimeRange> time_range;
+    String query_string;
 
-    TfVariable<ParsingMode> parsing_mode;
+    boolean run_by_receipt_time;
 
-    TfVariable<List<QueryParams>> query_parameter;
+    TimeRange time_range;
 
-    TfVariable<List> schedule;
+    ParsingMode parsing_mode;
+
+    List<QueryParams> query_parameter;
+
+    List schedule;
 }
 
